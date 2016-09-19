@@ -1,0 +1,8 @@
+body {
+  font-family: sans-serif;
+  font-size: 20px;
+}
+
+.done {
+  text-decoration: line-through;
+}
