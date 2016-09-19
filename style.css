@@ -3,6 +3,18 @@ body {
   font-size: 20px;
 }
 
+ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+li {
+  background-color: #eee;
+  margin-bottom: 0.5em;
+  width: 13em;
+  padding: 0.5em;
+}
+
 .done {
   text-decoration: line-through;
 }
