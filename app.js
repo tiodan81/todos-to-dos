@@ -32,7 +32,6 @@ const toggleDone = (e) => {
 }
 
 window.onload = () => {
-  console.log(todos);
   todos = localStorage.todos
     ? JSON.parse(localStorage.getItem('todos'))
     : []
