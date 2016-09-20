@@ -2,13 +2,19 @@
 
 const form = document.querySelector('form')
 const list = document.querySelector('.list')
-var todos = []
+var allTodos = []
 
-const addElWithText = (type, text, parent) => {
+const addElWithText = (type, text, done, parent) => {
   const el = document.createElement(type)
   el.textContent = text
+  if (done) el.classList.add('done')
   parent.appendChild(el)
 }
+
+const createTodo = (text, done) => ({
+  text: text,
+  done: done
+})
 
 const addTodo = (e) => {
   e.preventDefault()
@@ -19,23 +25,27 @@ const addTodo = (e) => {
 }
 
 const storeTodo = (text) => {
-  todos.push(text)
-  localStorage.setItem('todos', JSON.stringify(todos))
+  const newItem = createTodo(text, false)
+  allTodos.push(newItem)
+  localStorage.setItem('todos', JSON.stringify(allTodos))
 }
 
-const renderExisting = (tds) => {
-  tds.forEach(todo => addElWithText('li', todo, list))
+const renderExisting = (todos) => {
+  todos.forEach(todo => addElWithText('li', todo.text, todo.done, list))
 }
 
 const toggleDone = (e) => {
   e.target.classList.toggle('done')
+  for (let todo of allTodos) {
+    if (todo.text === e.target.innerText) todo.done = !todo.done
+  }
 }
 
 window.onload = () => {
-  todos = localStorage.todos
+  allTodos = localStorage.todos
     ? JSON.parse(localStorage.getItem('todos'))
     : []
-  renderExisting(todos)
+  renderExisting(allTodos)
   form.addEventListener('submit', addTodo)
   list.addEventListener('click', toggleDone)
 }
