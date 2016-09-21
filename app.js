@@ -18,9 +18,9 @@ const createTodo = (text, done) => ({
 
 const addTodo = (e) => {
   e.preventDefault()
-  const text = e.target.todo.value
-  storeTodo(text)
-  addElWithText('li', text, list)
+  const td = e.target.todo.value
+  storeTodo(td)
+  addElWithText('li', td, false, list)
   e.target.todo.value = ''
 }
 
@@ -35,9 +35,15 @@ const renderExisting = (todos) => {
 }
 
 const toggleDone = (e) => {
-  e.target.classList.toggle('done')
-  for (let todo of allTodos) {
-    if (todo.text === e.target.innerText) todo.done = !todo.done
+  if (e.target.matches('li')) {
+    e.target.classList.toggle('done')
+    for (let todo of allTodos) {
+      if (todo.text === e.target.innerText) {
+        todo.done = !todo.done
+        localStorage.setItem('todos', JSON.stringify(allTodos))
+        return
+      }
+    }
   }
 }
 
