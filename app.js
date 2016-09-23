@@ -37,20 +37,38 @@ const storeTodo = (text) => {
   localStorage.setItem('todos', JSON.stringify(allTodos))
 }
 
+const deleteTodo = (target) => {
+  const text = target.previousSibling.textContent
+
+  allTodos = allTodos.filter(t => t.text !== text)
+  localStorage.setItem('todos', JSON.stringify(allTodos))
+  list.innerHTML = ''
+  renderExisting(allTodos)
+}
+
 const renderExisting = (todos) => {
   todos.forEach(todo => renderTodo(todo.text, todo.done))
 }
 
-const toggleDone = (e) => {
-  if (e.target.matches('p')) {
-    e.target.classList.toggle('done')
-    for (let todo of allTodos) {
-      if (todo.text === e.target.innerText) {
-        todo.done = !todo.done
-        localStorage.setItem('todos', JSON.stringify(allTodos))
-        return
-      }
+const toggleDone = (target) => {
+  target.classList.toggle('done')
+  for (let todo of allTodos) {
+    if (todo.text === target.innerText) {
+      todo.done = !todo.done
+      localStorage.setItem('todos', JSON.stringify(allTodos))
+      return
     }
+  }
+}
+
+const dispatchEvent = (e) => {
+  if (e.target.matches('p')) {
+    toggleDone(e.target)
+  } else if (e.target.matches('span')) {
+    console.log('span');
+    deleteTodo(e.target)
+  } else {
+    return
   }
 }
 
@@ -60,5 +78,5 @@ window.onload = () => {
     : []
   renderExisting(allTodos)
   form.addEventListener('submit', addTodo)
-  list.addEventListener('click', toggleDone)
+  list.addEventListener('click', dispatchEvent)
 }
