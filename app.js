@@ -65,7 +65,6 @@ const dispatchEvent = (e) => {
   if (e.target.matches('p')) {
     toggleDone(e.target)
   } else if (e.target.matches('span')) {
-    console.log('span');
     deleteTodo(e.target)
   } else {
     return
